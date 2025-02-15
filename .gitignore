@@ -1,0 +1,16 @@
+# Playwright-specific files and directories
+playwright-report/
+.playwright/
+test-results/
+playwright/.auth/
+
+# Node.js
+node_modules/
+
+# OS-specific files and directories (for macOS)
+.DS_Store
+
+# Editor and IDE files
+.vscode/
+*~                        
+.cache
