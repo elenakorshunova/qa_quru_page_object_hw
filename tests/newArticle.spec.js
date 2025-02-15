@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { test, expect } from "@playwright/test";
-import { MainPage } from "../src/pages/mainPage";
-import { RegisterPage } from "../src/pages/registerPage";
+import { MainPage } from "../src/pages/MainPage";
+import { RegisterPage } from "../src/pages/RegisterPage";
 import { FeedPage } from "../src/pages/FeedPage";
 import { ArticleCreationPage } from "../src/pages/ArticleCreationPage";
 import { ArticlePage } from "../src/pages/ArticlePage";
