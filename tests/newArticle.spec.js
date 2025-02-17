@@ -59,9 +59,10 @@ test.describe("3 functional tests", () => {
      test("Add new comment", async ({ page }) => {
           const feedPage = new FeedPage(page);
           const articlePage = new ArticlePage(page);
+          const articleCreationPage = new ArticleCreationPage(page);
 
-          await feedPage.openGlobalFeed();
-          await feedPage.chooseArticle();
+          await feedPage.goToArticle();
+          await articleCreationPage.addArticleText(newArticle.title, newArticle.summary, newArticle.text);
           await articlePage.addComment(addedComment.text);
           await expect(articlePage.commentField).toBeVisible;
      });
