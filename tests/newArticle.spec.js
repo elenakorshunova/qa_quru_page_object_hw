@@ -1,34 +1,12 @@
-import { faker } from "@faker-js/faker";
 import { test, expect } from "@playwright/test";
-import { MainPage } from "../src/pages/MainPage";
-import { RegisterPage } from "../src/pages/RegisterPage";
-import { FeedPage } from "../src/pages/FeedPage";
-import { ArticleCreationPage } from "../src/pages/ArticleCreationPage";
-import { ArticlePage } from "../src/pages/ArticlePage";
-import { ProfilePage } from "../src/pages/ProfilePage";
-import { LoginPage } from "../src/pages/LoginPage";
+import { ArticleCreationPage, ArticlePage, FeedPage, LoginPage, MainPage, ProfilePage, RegisterPage } from "../src/pages/index";
+import { UserBuilder, ArticleBuilder, CommentBuilder, PasswordBuilder } from "../src/helpers/builder/index";
 
 const URL_UI = "https://realworld.qa.guru/";
-
-const user = {
-     email: faker.internet.email(),
-     password: faker.internet.password({ length: 10 }),
-     username: faker.person.firstName(),
-};
-
-const newArticle = {
-     title: faker.lorem.words(2),
-     summary: faker.lorem.words(5),
-     text: faker.lorem.sentences(5),
-};
-
-const addedComment = {
-     text: faker.lorem.sentences(2),
-};
-
-const newPassword = {
-     password: faker.internet.password({ length: 8 }),
-};
+const userBuilder = new UserBuilder().addEmail().addPassword(10).addUsername().generate();
+const articleBuilder = new ArticleBuilder().addSummary().addText().addTitle().generate();
+const commentBuilder = new CommentBuilder().addComment().generate();
+const newPasswordBuilder = new PasswordBuilder().createNewPassword().generate();
 
 test.describe("3 functional tests", () => {
      // autorization for new user
@@ -39,8 +17,8 @@ test.describe("3 functional tests", () => {
 
           await mainPage.open(URL_UI);
           await mainPage.goToRegister();
-          await registerPage.register(user.username, user.email, user.password);
-          await expect(feedPage.profileNameField).toContainText(user.username); // TO DO подумать как можно улучшить
+          await registerPage.register(userBuilder.username, userBuilder.email, userBuilder.password);
+          await expect(feedPage.profileNameField).toContainText(userBuilder.username);
      });
 
      //user creates new article
@@ -50,9 +28,9 @@ test.describe("3 functional tests", () => {
           const articlePage = new ArticlePage(page);
 
           await feedPage.goToArticle();
-          await articleCreationPage.addArticleText(newArticle.title, newArticle.summary, newArticle.text);
-          await expect(articlePage.createdTitleField).toContainText(newArticle.title);
-          await expect(articlePage.createdTextField).toContainText(newArticle.text);
+          await articleCreationPage.addArticleText(articleBuilder.title, articleBuilder.summary, articleBuilder.text);
+          await expect(articlePage.createdTitleField).toContainText(articleBuilder.title);
+          await expect(articlePage.createdTextField).toContainText(articleBuilder.text);
      });
 
      // user adds comment
@@ -62,8 +40,8 @@ test.describe("3 functional tests", () => {
           const articleCreationPage = new ArticleCreationPage(page);
 
           await feedPage.goToArticle();
-          await articleCreationPage.addArticleText(newArticle.title, newArticle.summary, newArticle.text);
-          await articlePage.addComment(addedComment.text);
+          await articleCreationPage.addArticleText(articleBuilder.title, articleBuilder.summary, articleBuilder.text);
+          await articlePage.addComment(commentBuilder.text);
           await expect(articlePage.commentField).toBeVisible;
      });
 
@@ -74,12 +52,12 @@ test.describe("3 functional tests", () => {
           const mainPage = new MainPage(page);
           const loginPage = new LoginPage(page);
 
-          await feedPage.openSettings(user.username);
-          await profilePage.createNewPassword(newPassword.password);
-          await profilePage.logOut(user.username);
+          await feedPage.openSettings(userBuilder.username);
+          await profilePage.createNewPassword(newPasswordBuilder.password);
+          await profilePage.logOut(userBuilder.username);
           await mainPage.goToLogin();
-          await loginPage.loginUser(user.email, newPassword.password);
+          await loginPage.loginUser(userBuilder.email, newPasswordBuilder.password);
 
-          await expect(feedPage.profileNameField).toContainText(user.username); // TO DO подумать как можно улучшить
+          await expect(feedPage.profileNameField).toContainText(userBuilder.username);
      });
 });
