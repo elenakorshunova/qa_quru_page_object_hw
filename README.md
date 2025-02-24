@@ -9,3 +9,6 @@ Course "JS & Playwright": homework for lesson 6
 
 - added buiders (pattern "Builder")
 - imports moved to index.js (pattern "Facade")
+
+Course "JS & Playwright": homework for lesson 7
+- added reports (Allure)
