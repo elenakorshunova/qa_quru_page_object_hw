@@ -12,3 +12,6 @@ Course "JS & Playwright": homework for lesson 6
 
 Course "JS & Playwright": homework for lesson 7
 - added reports (Allure)
+
+Additional:
+- added Dockerfile
