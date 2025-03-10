@@ -16,3 +16,4 @@ Course "JS & Playwright": homework for lesson 7
 Additional:
 - added Dockerfile
 - added workflow in yml file (GitHub Actions, GitHub Pages) for run test and Playwright/Allure test report
+- added workflow in Jenkinsfile
